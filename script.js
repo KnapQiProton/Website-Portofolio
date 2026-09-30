@@ -230,19 +230,58 @@ function rotateQuote() {
 
 setInterval(rotateQuote, 4000);
 
-// ===== STATS COUNTER ANIMATION =====
+// ===== STATS COUNTER ANIMATION (DYNAMIC FROM GITHUB API) =====
+const GITHUB_USERNAME = 'KnapQiProton';
 const statNumbers = document.querySelectorAll('.stat-number');
-const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const target = parseInt(entry.target.getAttribute('data-target'));
-            animateCounter(entry.target, target);
-            statsObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.5 });
 
-statNumbers.forEach(stat => statsObserver.observe(stat));
+// Fetch real-time data from GitHub API
+async function fetchGitHubStats() {
+    try {
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
+        const data = await response.json();
+        
+        // Update stats with real data
+        const stats = {
+            repos: data.public_repos || 0,
+            // Note: GitHub API doesn't provide total commits directly
+            // We'll use a reasonable estimate or keep it static
+            commits: 57, // This would need a separate API call or scraping
+            projects: data.public_repos || 0,
+            since: data.created_at ? new Date(data.created_at).getFullYear() : 2025
+        };
+        
+        // Update DOM
+        const statItems = document.querySelectorAll('.stat-item');
+        if (statItems[0]) statItems[0].querySelector('.stat-number').setAttribute('data-target', stats.repos);
+        if (statItems[1]) statItems[1].querySelector('.stat-number').setAttribute('data-target', stats.commits);
+        if (statItems[2]) statItems[2].querySelector('.stat-number').setAttribute('data-target', stats.projects);
+        if (statItems[3]) statItems[3].querySelector('.stat-number').setAttribute('data-target', stats.since);
+        
+        // Re-initialize observer
+        initStatsObserver();
+        
+    } catch (error) {
+        console.log('Failed to fetch GitHub stats, using defaults:', error);
+        initStatsObserver();
+    }
+}
+
+function initStatsObserver() {
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = parseInt(entry.target.getAttribute('data-target'));
+                animateCounter(entry.target, target);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number').forEach(stat => {
+        stat.textContent = '0';
+        statsObserver.observe(stat);
+    });
+}
 
 function animateCounter(element, target) {
     let current = 0;
@@ -257,6 +296,9 @@ function animateCounter(element, target) {
         }
     }, 30);
 }
+
+// Fetch stats on page load
+fetchGitHubStats();
 
 // ===== CERTIFICATE MODAL =====
 function openModal(certId) {
