@@ -18,15 +18,6 @@
 - **JavaScript (Vanilla)** — Interaksi, animasi, GitHub API
 - **GitHub Pages** — Hosting gratis
 
-## 🚀 Cara Pakai
-
-1. Clone repo ini
-   ```bash
-   git clone https://github.com/KnapQiProton/Website-Portofolio.git
-   ```
-2. Buka `index.html` di browser
-3. Selesai! 🎉
-
 ## 📸 Preview
 
 ![Preview](https://img.shields.io/badge/Portfolio-KnapQi-6c63ff)
