@@ -2,7 +2,6 @@
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
 
-// Cek preferensi tersimpan atau default dark
 const savedTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 updateToggleIcon(savedTheme);
@@ -43,8 +42,36 @@ window.addEventListener('scroll', function () {
     }
 });
 
+// ===== SCROLL PROGRESS BAR =====
+const scrollProgress = document.getElementById('scrollProgress');
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    scrollProgress.style.width = scrollPercent + '%';
+});
+
+// ===== BACK TO TOP BUTTON =====
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+
+backToTop.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
 // ===== SCROLL REVEAL ANIMATION =====
-const revealElements = document.querySelectorAll('.section h2, .about-text, .skills, .project-card, .certificate-card, .contact-content');
+const revealElements = document.querySelectorAll('.section h2, .about-text, .skills, .project-card, .certificate-card, .timeline-item, .contact-content, .stat-item');
 
 revealElements.forEach(el => {
     el.classList.add('reveal');
@@ -157,31 +184,19 @@ const skillObserver = new IntersectionObserver((entries) => {
 
 skills.forEach(skill => skillObserver.observe(skill));
 
-// ===== SCROLL PROGRESS BAR =====
-const scrollProgress = document.getElementById('scrollProgress');
+// ===== MAGNETIC BUTTON EFFECT =====
+const buttons = document.querySelectorAll('.btn, .btn-small');
+buttons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
 
-window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    scrollProgress.style.width = scrollPercent + '%';
-});
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    });
 
-// ===== BACK TO TOP BUTTON =====
-const backToTop = document.getElementById('backToTop');
-
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        backToTop.classList.add('visible');
-    } else {
-        backToTop.classList.remove('visible');
-    }
-});
-
-backToTop.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
     });
 });
 
@@ -215,18 +230,65 @@ function rotateQuote() {
 
 setInterval(rotateQuote, 4000);
 
-// ===== MAGNETIC BUTTON EFFECT =====
-const buttons = document.querySelectorAll('.btn, .btn-small');
-buttons.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+// ===== STATS COUNTER ANIMATION =====
+const statNumbers = document.querySelectorAll('.stat-number');
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = parseInt(entry.target.getAttribute('data-target'));
+            animateCounter(entry.target, target);
+            statsObserver.unobserve(entry.target);
+        }
     });
+}, { threshold: 0.5 });
 
-    btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate(0, 0)';
-    });
+statNumbers.forEach(stat => statsObserver.observe(stat));
+
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target + '+';
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, 30);
+}
+
+// ===== CERTIFICATE MODAL =====
+function openModal(certId) {
+    const modal = document.getElementById('certModal');
+    const modalTitle = document.getElementById('modalTitle');
+    
+    const certNames = {
+        'sertifikat1': 'Belajar Membuat Front-End Web untuk Pemula',
+        'sertifikat2': 'JavaScript Developer Certification',
+        'sertifikat3': 'React - The Complete Guide',
+        'sertifikat4': 'UI/UX Design Professional'
+    };
+    
+    modalTitle.textContent = certNames[certId] || 'Sertifikat';
+    modal.classList.add('active');
+}
+
+function closeModal() {
+    const modal = document.getElementById('certModal');
+    modal.classList.remove('active');
+}
+
+// Close modal on outside click
+document.getElementById('certModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
 });

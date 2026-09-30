@@ -10,6 +10,9 @@
     <!-- Theme Toggle -->
     <button class="theme-toggle" id="themeToggle" aria-label="Ganti tema">🌙</button>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
@@ -19,13 +22,11 @@
                 <li><a href="#tentang">Tentang</a></li>
                 <li><a href="#proyek">Proyek</a></li>
                 <li><a href="#sertifikat">Sertifikat</a></li>
+                <li><a href="#pengalaman">Pengalaman</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
         </div>
     </nav>
-
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- Hero Section -->
     <section id="beranda" class="hero">
@@ -35,7 +36,10 @@
                     <h1>Halo, Saya <span class="highlight">KnapQi</span></h1>
                     <p class="subtitle">Web Developer & Desainer</p>
                     <p class="description">Saya suka membuat website yang indah dan fungsional.</p>
-                    <a href="#proyek" class="btn">Lihat Proyek</a>
+                    <div class="hero-buttons">
+                        <a href="#proyek" class="btn">Lihat Proyek</a>
+                        <a href="#kontak" class="btn btn-outline">Hubungi Saya</a>
+                    </div>
                 </div>
                 <div class="hero-image">
                     <div class="profile-frame">
@@ -43,6 +47,30 @@
                             <img src="profile.jpg" alt="Foto Profil KnapQi">
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Proyek Selesai</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="30">0</div>
+                    <div class="stat-label">Klien Puas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">Kopi Dikonsumsi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="999">0</div>
+                    <div class="stat-label">Baris Kode</div>
                 </div>
             </div>
         </div>
@@ -103,33 +131,66 @@
         <div class="container">
             <h2>Sertifikat</h2>
             <div class="certificates-grid">
-                <div class="certificate-card reveal delay-1">
+                <div class="certificate-card reveal delay-1" onclick="openModal('sertifikat1')">
                     <div class="certificate-icon">🏆</div>
                     <h3>Belajar Membuat Front-End Web untuk Pemula</h3>
                     <p class="certificate-issuer">Dicoding Indonesia</p>
                     <p class="certificate-date">Issued: Jan 2026</p>
-                    <a href="#" class="btn-small">Lihat Sertifikat</a>
+                    <span class="btn-small">Lihat Sertifikat</span>
                 </div>
-                <div class="certificate-card reveal delay-2">
+                <div class="certificate-card reveal delay-2" onclick="openModal('sertifikat2')">
                     <div class="certificate-icon">📜</div>
                     <h3>JavaScript Developer Certification</h3>
                     <p class="certificate-issuer">freeCodeCamp</p>
                     <p class="certificate-date">Issued: Mar 2026</p>
-                    <a href="#" class="btn-small">Lihat Sertifikat</a>
+                    <span class="btn-small">Lihat Sertifikat</span>
                 </div>
-                <div class="certificate-card reveal delay-3">
+                <div class="certificate-card reveal delay-3" onclick="openModal('sertifikat3')">
                     <div class="certificate-icon">🎓</div>
                     <h3>React - The Complete Guide</h3>
                     <p class="certificate-issuer">Udemy</p>
                     <p class="certificate-date">Issued: Jun 2026</p>
-                    <a href="#" class="btn-small">Lihat Sertifikat</a>
+                    <span class="btn-small">Lihat Sertifikat</span>
                 </div>
-                <div class="certificate-card reveal delay-4">
+                <div class="certificate-card reveal delay-4" onclick="openModal('sertifikat4')">
                     <div class="certificate-icon">⭐</div>
                     <h3>UI/UX Design Professional</h3>
                     <p class="certificate-issuer">Google Coursera</p>
                     <p class="certificate-date">Issued: Agu 2026</p>
-                    <a href="#" class="btn-small">Lihat Sertifikat</a>
+                    <span class="btn-small">Lihat Sertifikat</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pengalaman Section -->
+    <section id="pengalaman" class="section section-alt">
+        <div class="container">
+            <h2>Pengalaman</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Freelance Web Developer</h3>
+                        <p class="timeline-period">2024 - Sekarang</p>
+                        <p>Mengerjakan berbagai proyek website untuk klien lokal dan internasional.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal-right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Web Developer Intern</h3>
+                        <p class="timeline-period">2023 - 2024</p>
+                        <p>Magang di startup teknologi, belajar pengembangan web modern.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Self-Taught Developer</h3>
+                        <p class="timeline-period">2022 - 2023</p>
+                        <p>Belajar coding secara otodidak melalui platform online dan proyek pribadi.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,8 +203,8 @@
             <div class="contact-content reveal">
                 <p>Tertarik bekerja sama? Hubungi saya melalui:</p>
                 <div class="contact-links">
-                    <a href="mailto:email@kamu.com" class="contact-item">Email</a>
-                    <a href="https://github.com/username" class="contact-item" target="_blank">GitHub</a>
+                    <a href="mailto:KnapQi@proton.me" class="contact-item">Email</a>
+                    <a href="https://github.com/KnapQiProton" class="contact-item" target="_blank">GitHub</a>
                     <a href="https://linkedin.com/in/username" class="contact-item" target="_blank">LinkedIn</a>
                 </div>
             </div>
@@ -162,6 +223,18 @@
 
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">↑</button>
+
+    <!-- Certificate Modal -->
+    <div class="modal" id="certModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Sertifikat</h3>
+            <div class="modal-body">
+                <p>Ini adalah tampilan sertifikat kamu. Ganti dengan gambar atau PDF asli.</p>
+                <div class="modal-placeholder">📜</div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
